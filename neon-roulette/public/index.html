@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OSTATNIE SŁOWO</title>
+<style>
+:root{color-scheme:dark;--bg:#07040f;--pk:#ff2bd6;--cy:#19f6ff;--gr:#39ff88;--rd:#ff1744;--tx:#f4eaff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:radial-gradient(circle at 50% 30%,#1c0b3a,var(--bg) 70%);color:var(--tx);font-family:"Segoe UI",system-ui,sans-serif;overflow:hidden}
+.hid{display:none!important}
+#menu{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:16px;text-align:center}
+h1{font-size:clamp(28px,6vw,56px);margin:0;letter-spacing:4px;color:#fff;text-shadow:0 0 8px var(--pk),0 0 24px var(--pk),0 0 48px var(--pk);animation:fl 3s infinite}
+@keyframes fl{0%,92%,100%{opacity:1}94%{opacity:.5}96%{opacity:1}98%{opacity:.6}}
+.pv{width:40px;height:40px;border-radius:50%;overflow:hidden;display:flex;border:2px solid #fff8}.pv svg,.pv img{width:100%;height:100%;object-fit:cover}
+#mu{position:absolute;right:1em;top:1em;z-index:7;background:#0008;border:.2em solid var(--cy);color:var(--cy);border-radius:.8em;padding:.6em;cursor:pointer;width:4.4em;height:4.4em}#mu svg{width:100%;height:100%}
+.trophy svg{width:3em;height:3em}
+input{background:#150a2b;border:2px solid #3b2a66;color:#fff;border-radius:12px;padding:12px 14px;font-size:18px;text-align:center;outline:none;width:240px}
+input:focus{border-color:var(--cy);box-shadow:0 0 14px var(--cy)}
+.b{background:transparent;color:#fff;border:2px solid var(--pk);border-radius:12px;padding:12px 22px;font-size:17px;font-weight:700;letter-spacing:1px;cursor:pointer;box-shadow:0 0 14px var(--pk),inset 0 0 12px #ff2bd633;transition:.2s}
+.b:hover:not(:disabled){background:var(--pk);transform:translateY(-2px)}
+.b.c{border-color:var(--cy);box-shadow:0 0 14px var(--cy),inset 0 0 12px #19f6ff33}.b.c:hover:not(:disabled){background:var(--cy);color:#000}
+.b:disabled{opacity:.3;cursor:not-allowed;box-shadow:none}
+#msg{color:var(--gr);min-height:22px}
+#game{height:100%;display:flex;align-items:center;justify-content:center}
+#stage{position:relative;width:min(100vw,177.7vh);aspect-ratio:16/9;font-size:10px}
+#table{position:absolute;left:50%;top:50%;width:52em;height:52em;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,#a0001b,#6a0012 70%);box-shadow:0 0 6em #ff174455,inset 0 0 5em #000a;border:.3em solid #ff1744aa;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1em}
+.seat{position:absolute;width:15em;height:12em;margin:-6em 0 0 -7.5em;border:.35em solid #fff8;border-radius:2em;background:#14082a;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:.4s;text-align:center;overflow:hidden}
+.seat .a{width:5.4em;height:5.4em;border-radius:50%;overflow:hidden;border:.25em solid #fff8;display:flex;margin-bottom:.3em}.seat .a img,.seat .a svg{width:100%;height:100%;object-fit:cover}.seat .n{font-size:1.9em;font-weight:700;max-width:95%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seat.me{border-color:var(--cy);box-shadow:0 0 2em var(--cy)}
+.seat.sh{border-color:var(--gr);box-shadow:0 0 2.2em var(--gr)}
+.seat.tg{border-color:var(--rd);box-shadow:0 0 2.6em var(--rd);animation:pu .5s infinite alternate}
+@keyframes pu{to{transform:scale(1.08)}}
+.seat.dead{filter:grayscale(1) brightness(.5);border-color:#444;box-shadow:none}
+.seat.dead::after{content:"";position:absolute;width:7em;height:7em;z-index:2;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 4C17 4 8 14 8 27c0 8 4 13 9 16v10h8v-5h4v5h6v-5h4v5h8V43c5-3 9-8 9-16C56 14 47 4 32 4z' fill='%23eee'/%3E%3Ccircle cx='22' cy='28' r='6' fill='%23200'/%3E%3Ccircle cx='42' cy='28' r='6' fill='%23200'/%3E%3Cpath d='M32 34l-4 8h8z' fill='%23200'/%3E%3C/svg%3E") center/contain no-repeat}
+.seat.dead::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 40% 40%,#c00 0,#800 25%,transparent 55%),radial-gradient(circle at 75% 70%,#a00 0,transparent 35%);z-index:1;mix-blend-mode:multiply}
+.typ{font-size:1.6em;color:var(--cy);height:1.2em}
+.name{position:absolute;font-size:1.6em;color:#fff9}
+#gun{width:26em;height:13em;overflow:visible;transform-origin:50% 50%;transition:transform .6s cubic-bezier(.2,1.3,.4,1);filter:drop-shadow(0 0 .7em #19f6ff)}
+#info{font-size:2em;text-align:center;min-height:1.4em;padding:0 3em}
+#lobby{display:flex;flex-direction:column;align-items:center;gap:.9em;font-size:1.8em;z-index:3}
+#code{font-size:2.6em;letter-spacing:.3em;font-weight:800;color:var(--cy);text-shadow:0 0 .5em var(--cy)}
+.chips{display:flex;flex-wrap:wrap;gap:.5em;justify-content:center;max-width:26em}
+.chip{padding:.3em .8em;border:2px solid #fff6;border-radius:2em;cursor:pointer;font-size:.85em;background:#0006;color:#fff}
+.chip.on{border-color:var(--gr);background:#39ff8833;box-shadow:0 0 .8em var(--gr)}
+textarea{width:24em;height:3.2em;background:#150a2b;color:#fff;border:2px solid #3b2a66;border-radius:.6em;font-size:.8em;padding:.4em}
+#bar{position:absolute;left:0;right:0;bottom:1.2em;display:flex;justify-content:center;z-index:6}
+#guess{font-size:2.4em;width:12em;border-color:var(--rd);box-shadow:0 0 1em var(--rd)}
+#spec{position:absolute;top:1em;left:50%;transform:translateX(-50%);font-size:2em;color:var(--pk);text-shadow:0 0 .6em var(--pk);z-index:6}
+#flash{position:absolute;inset:0;background:#f00;opacity:0;pointer-events:none;z-index:9}
+#over{position:absolute;inset:0;background:#000c;z-index:8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4em;font-size:3.6em;text-align:center}
+.drop{position:absolute;width:.9em;height:1.6em;background:#b00014;border-radius:50% 50% 50% 50%/30% 30% 70% 70%;pointer-events:none;z-index:10;animation:dr 1.3s ease-out forwards}
+@keyframes dr{from{transform:translate(0,0) scale(1)}to{transform:translate(var(--x),var(--y)) scale(.4);opacity:0}}
+.shake{animation:sk .45s}@keyframes sk{20%{transform:translate(-1em,.6em)}40%{transform:translate(1em,-.6em)}60%{transform:translate(-.6em,-.4em)}80%{transform:translate(.4em,.4em)}}
+.bad{animation:sk .3s}
+#word{display:flex;gap:.35em;flex-wrap:wrap;justify-content:center;min-height:3em;font-size:1.6em}
+#word i{font-style:normal;font-size:1.3em;width:1.5em;height:1.9em;display:grid;place-items:center;border:.12em solid #fff5;border-radius:.35em;background:#0008;font-weight:800;font-family:monospace;transition:.15s}
+#word i.g{color:var(--gr);border-color:var(--gr);box-shadow:0 0 .6em var(--gr)}
+#word i.t{color:var(--cy);border-color:var(--cy);box-shadow:0 0 .6em var(--cy);transform:scale(1.1)}
+#word i.d{color:#fff6}#word i.n{border-color:var(--pk);animation:bl .7s infinite alternate}
+@keyframes bl{to{box-shadow:0 0 .8em var(--pk);border-color:#fff}}
+body::before{content:"";position:fixed;inset:-50%;z-index:-1;background:linear-gradient(#ff2bd633 1px,transparent 1px) 0 0/48px 48px,linear-gradient(90deg,#19f6ff22 1px,transparent 1px) 0 0/48px 48px;transform:perspective(600px) rotateX(58deg);animation:gd 5s linear infinite;pointer-events:none}
+@keyframes gd{to{background-position:0 48px,48px 0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.seat{background:linear-gradient(160deg,#2a1255,#0d0620)}
+#gg.rec{animation:rec .35s}@keyframes rec{25%{transform:translate(-18px,2px) rotate(-6deg)}}
+#mf{transition:opacity .12s}
+
+:root{--bg:#0a0705;--pk:#8c1d1d;--cy:#c9a24b;--gr:#8da35a;--rd:#b3202a;--tx:#dccfae}
+body{font-family:Georgia,"Palatino Linotype",serif;color:var(--tx);background:radial-gradient(circle at 50% 40%,#2a1a10 0,#0b0705 62%,#000),repeating-linear-gradient(90deg,#0000002a 0 .3em,transparent .3em 6em)}
+body::before{inset:0;z-index:50;transform:none;animation:none;background:radial-gradient(ellipse at center,transparent 30%,#000e 100%)}
+body::after{content:"";position:fixed;inset:0;z-index:49;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E"),radial-gradient(circle at 50% 45%,#ffb34712,transparent 60%);animation:fk 3s infinite alternate}
+@keyframes fk{50%{opacity:.6}}
+h1{color:#c9a24b;text-shadow:0 .08em .15em #000,0 0 .5em #6b2a0a;font-variant:small-caps;letter-spacing:.14em}
+input,textarea{background:#140c07;border:2px solid #4a3119;color:#e0cfa0;font-family:Georgia,serif;border-radius:.3em}
+input:focus{border-color:#c9a24b;box-shadow:none}
+.b,.b.c{border:2px solid #7a5a2a;border-radius:.3em;background:linear-gradient(#3a2415,#1d110a);box-shadow:0 .2em .5em #000;color:#e0cfa0;text-transform:uppercase;letter-spacing:.15em;font-family:Georgia,serif}
+.b:hover:not(:disabled),.b.c:hover:not(:disabled){background:linear-gradient(#5a3a1d,#2d1b0e);color:#fff;transform:none}
+.chip{border-color:#6b4a22;border-radius:.3em;background:#1d110a}.chip.on{border-color:var(--gr);background:#8da35a2a;box-shadow:none}
+#table{width:36em;height:36em;background:radial-gradient(circle at 70% 66%,#4a0a0e77 0,transparent 18%),radial-gradient(circle at 50% 45%,#1f2b22,#0b120d 75%);border:1.1em solid #2e1a0d;box-shadow:0 0 0 .15em #6b4a22,0 1em 3em #000,inset 0 0 4em #000;gap:0}
+#ring circle{stroke:#c9a24b}
+.seat{width:13em;height:10.5em;margin:-5.25em 0 0 -6.5em;background:linear-gradient(#3a2415,#1c0f08);border:.25em solid #6b4a22;border-radius:.5em;box-shadow:0 .4em .8em #000a,inset 0 0 1.2em #000}
+.seat .a{width:4.6em;height:4.6em;border-color:#8a6a2f;filter:sepia(.45) contrast(1.05)}.seat .n{font-size:1.5em;color:#e0cfa0}.typ{display:none}
+.seat.me{border-color:#c9a24b;box-shadow:0 .4em .8em #000a,0 0 1em #c9a24b55}
+.seat.sh{border-color:#8da35a;box-shadow:0 .4em .8em #000a,0 0 1em #8da35a55}
+.seat.tg{border-color:#b3202a;box-shadow:0 0 1.4em #b3202a;animation:pu .7s infinite alternate}
+.seat.dead{box-shadow:none}
+#gun{width:14em;height:8.4em;filter:drop-shadow(0 .4em .4em #000)}
+#plaque{position:absolute;left:50%;top:35.5em;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5em;z-index:3;padding:.6em 1.4em;background:linear-gradient(#2b1a0e,#170d06);border:.2em solid #6b4a22;border-radius:.4em;box-shadow:0 .4em 1em #000}
+#info{font-size:1.4em;min-height:1.2em;padding:0;color:#cdb98a}
+#word{min-height:2.6em;font-size:1.6em}
+#word i{background:#120a05;border:.12em solid #6b4a22;color:#cdb98a;font-family:Georgia,serif;border-radius:.2em;font-size:1.2em;width:1.25em;height:1.7em;box-shadow:none}
+#word i.g{color:#9fb36a;border-color:#6d7d44;box-shadow:none}#word i.t{color:#f0e2b0;border-color:#c9a24b;box-shadow:none;transform:none}#word i.d{color:#fff5}#word i.r{color:#e0646e;border-color:#b3202a}
+#lobby{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:1.5em;z-index:4;padding:1em 1.6em;background:linear-gradient(#2b1a0e,#170d06);border:.15em solid #6b4a22;border-radius:.4em;box-shadow:0 .5em 2em #000}
+#lobby:empty{display:none}#code{font-size:1.8em;letter-spacing:.2em;text-shadow:none;color:#c9a24b}
+#bar{left:57em;right:auto;bottom:4em;justify-content:flex-start}#guess{font-size:1.8em;width:9em;box-shadow:none;border-color:#b3202a;background:#140c07}
+#spec{left:1.5em;top:1.5em;transform:none;font-size:1.6em;color:var(--rd);text-shadow:none}
+#mu{border-color:#6b4a22;color:#c9a24b;background:#1a0f08}
+.drop{background:#6b0008}
+</style></head><body>
+<div id="menu">
+<h1>OSTATNIE SŁOWO</h1>
+<div style="opacity:.8">Zgadnij słowo, zanim padnie strzał. 2–8 graczy.</div>
+<label class="b c" style="display:flex;align-items:center;gap:10px"><span id="avp" class="pv"></span><span>DODAJ AVATAR (opcjonalnie)</span><input type="file" id="avf" accept="image/*" hidden></label>
+<input id="nick" maxlength="12" placeholder="Twój nick">
+<button class="b c" id="bj" disabled>DOŁĄCZ DO GRY</button>
+<div style="opacity:.6;font-size:14px">Pierwsza osoba, która dołączy, zostaje hostem.</div>
+<div id="msg"></div>
+</div>
+<div id="game" class="hid"><div id="stage">
+<svg id="ring" viewBox="0 0 100 100" style="position:absolute;left:50%;top:50%;width:39em;height:39em;transform:translate(-50%,-50%) rotate(-90deg)"><circle id="rc" cx="50" cy="50" r="48" fill="none" stroke-width="1.6" stroke-dasharray="301.6" stroke-dashoffset="0"/></svg>
+<div id="table"><svg id="gun" class="hid" viewBox="0 0 200 120"><defs><radialGradient id="gf"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#ffb347"/><stop offset="1" stop-color="#ff400000"/></radialGradient></defs><g id="gg" stroke="#14100d" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path d="M34 58L68 70L60 114Q40 122 18 112Q10 80 34 58Z" fill="#7a3a16"/><path d="M26 86Q32 72 44 66" fill="none" stroke="#a9592a" stroke-width="3"/><path d="M62 78Q58 104 84 98Q98 94 94 78" fill="none"/><path d="M78 76l3 12"/><path d="M24 36L36 24L44 34L50 62L30 56Z" fill="#3b3d46"/><path d="M44 32h60v46H48Z" fill="#4a4c56"/><rect x="52" y="26" width="58" height="52" rx="9" fill="#353741"/><rect x="62" y="38" width="38" height="8" rx="3" fill="#9aa0ab" stroke-width="3"/><rect x="62" y="54" width="38" height="8" rx="3" fill="#9aa0ab" stroke-width="3"/><path d="M108 30h74l6 5v14l-6 4h-74z" fill="#8a8f98"/><path d="M112 35h66" stroke="#c4c9d1" stroke-width="3"/><path d="M176 28l6-8 4 8z" fill="#8a8f98"/><g id="mf" opacity="0"><circle cx="192" cy="42" r="30" fill="url(#gf)" stroke="none"/></g></g></svg></div>
+<div id="plaque" class="hid"><div id="info"></div><div id="word"></div></div>
+<div id="lobby"></div>
+<div id="seats"></div>
+<div id="spec" class="hid"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg> TRYB OBSERWATORA</div>
+<button id="mu" title="Dźwięk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9v6h4l5 4V5L7 9z"/><path d="M16 8c2 2 2 6 0 8M19 5c4 4 4 10 0 14"/></svg></button>
+<div id="bar"><input id="guess" class="hid" autocomplete="off" placeholder="dopisz brakujące litery"></div>
+<div id="over" class="hid"></div>
+<div id="flash"></div>
+</div></div>
+<script>
+const $=s=>document.querySelector(s);
+const CAT={polskie:'pierogi kiełbasa kraków żubrówka bigos szarotka mazury pączek kapusta dworzec jabłko babcia zupa okno'.split(' '),
+trendy:'tiktok influencer streaming rolki algorytm filtr hasztag podcast wyzwanie nagranie subskrypcja reakcja'.split(' '),
+memy:'sigma skibidi gigachad rizz cringe ohio doge troll wojak pepe amogus grindset bruh'.split(' '),
+zagraniczne:'banana library computer mountain freedom dragon castle thunder whisper journey bicycle kitchen monkey'.split(' '),
+przyroda:'sosna wiewiórka jeleń bocian rzeka grzyb biedronka wilk jezioro burza lawenda paproć'.split(' '),
+geografia:'warszawa tatry bałtyk europa sahara amazonka himalaje pustynia archipelag równik wulkan kontynent delta lodowiec'.split(' ')};
+const XW={"polskie": "barszcz żurek flaki gołąbki schabowy mizeria ogórek pomidor ziemniak marchewka cebula czosnek twaróg masło mleko śmietana kefir jogurt bułka rogal drożdżówka sernik makowiec szarlotka piernik faworki oscypek kabanos salceson kaszanka śledź karp pstrąg dorsz rosół kluski kopytka placki naleśniki racuchy gofry lody cukierki czekolada wafelek babcia dziadek wujek ciocia sąsiad ksiądz kościół dzwon cmentarz znicz opłatek choinka wigilia mikołaj andrzejki walentynki wielkanoc pisanka baranek dożynki wesele wianek lodówka pralka odkurzacz kanapa dywan firanka szafa krzesło stół drzwi schody balkon piwnica strych garaż podwórko ogródek działka grill ognisko flaga godło hymn orzeł syrenka lajkonik szopka mickiewicz sienkiewicz chopin kopernik wałęsa kiosk bazar targ sklep osiedle blok kamienica tramwaj autobus pociąg peron bilet kasownik kierowca rower hulajnoga chodnik rondo szkoła tablica kreda zeszyt ołówek długopis plecak lekcja przerwa dzwonek świadectwo matura egzamin studia akademik wykład ściąga kartkówka sprawdzian wakacje ferie kolonie obóz namiot śpiwór kajak grzyby jagody maliny poziomki żuraw wieś stodoła obora gospodarz traktor sianokosy żniwa kombajn kapliczka krzyż różaniec pielgrzymka odpust jarmark kiermasz karuzela wata balon festyn dyskoteka karaoke disco polo akordeon skrzypce dudy kapela hejnał polonez mazurek krakowiak oberek kujawiak przysłowie zagadka rymowanka kolęda pastorałka legenda bajka baśnie smok lech czech piast mieszko jagiełło batory sobieski kościuszko piłsudski sejm senat prezydent premier minister poseł urząd paszport dowód mandat grzywna podatek zasiłek emerytura pensja premia urlop zwolnienie umowa etat fabryka kopalnia stocznia huta górnik hutnik rybak flisak pasterz bacówka juhas góral ciupaga halka kierpce korale", "trendy": "tiktok instagram youtube twitch facebook snapchat telegram discord whatsapp messenger netflix spotify twitter reddit pinterest linkedin telefon smartfon tablet laptop słuchawki ładowarka powerbank bluetooth wifi hotspot aplikacja wiadomość komentarz polubienie obserwujący followersi subskrybent kanał profil konto hasło login avatar nick pseudonim stream streamer gamer gracz konsola playstation xbox nintendo steam fortnite minecraft roblox valorant fifa zakład turniej esport drużyna klan ranking poziom boss quest loot skin emotka naklejka filmik klip montaż vlog podcast wywiad reklama sponsor kolaboracja partnerstwo kampania marka trend wyzwanie moda stylizacja outfit sneakersy bluza koszulka czapka okulary plecak perfumy kosmetyki makijaż paznokcie fryzura tatuaż siłownia trening dieta suplement proteiny jogging fitness joga medytacja detoks smoothie matcha latte frappe boba burger pizza kebab sushi ramen tacos wrapy nuggetsy frytki shake churros brunch foodtruck dostawa kurier paczkomat zakupy wyprzedaż kupon rabat cashback blik karta portfel bitcoin ethereum giełda inwestycja akcje kredyt subskrypcja abonament platforma streaming serial sezon odcinek premiera trailer recenzja influencer celebryta raper piosenkarz koncert festiwal bilet playlista remix beat refren singiel album teledysk hejter troll afera skandal dramat plotka clickbait fejk deepfake chatbot robot dron kamera selfie relacja rolka karuzela hasztag viral viralowy algorytm zasięg kliknięcie link baner cookies ekran ramka filtr efekt animacja grafika", "memy": "sigma skibidi gigachad rizz cringe doge troll wojak pepe grindset bruh nerd chad based mewing aura edging yapping delulu slay vibe vibing lowkey highkey impostor amogus ratio cope seethe copium hopium sadge poggers kekw omegalul monka hmmm stonks hodl rekt noob pwned yeet yolo fomo gaslight toxic simp incel normie boomer zoomer millenials karen virgin giga ultra mega epic fail nolife kombajn janusz grażyna sebix patus dresiarz karyna cebula pasztet blachara polak korwin heheszki hehe kurde kurczę jajco zonk lipa wtopa pudło bania banan kicia pysia misiaczek skarbie kotku paćka dzban dzbanek ziomek ziomal brat bracie stary stara gościu laska typiara cwaniak spoko luzik chillout relaks nuda zamulka mulić zgon impreza domówka melanż browar piwko setka kielich prosecco wóda przepaść odlot jazda ogień bomba petarda rakieta kosmos mocarz legenda boss szef król mistrz geniusz idol ikona ziom ziomeczki ekipa banda ferajna paczka kumpel koleżka stachu mietek zbyszek heniek halina maniek boguś bożena mariolka wiesiek andrzej cebulak cebulactwo promocja gratis darmocha kasa hajs forsa szmal mamona skarbonka ciuchy ciuch glany trampki kapcie klapki szlafrok piżama czapka kapelusz kominiarka maska okulary lornetka sowa kruk wrona pies chomik żaba rybka kameleon dinozaur smok jednorożec pizza kebab frytki hotdog nachosy popcorn kinder kinderbueno snickers twix mars lion prince", "zagraniczne": "apple orange lemon cherry grape peach melon berry tomato potato carrot onion garlic pepper cheese butter bread cake cookie candy sugar honey coffee water juice milk soda beer wine rice pasta pizza burger salad soup steak chicken turkey salmon shrimp lobster house window door floor roof wall garden street bridge tower castle church school office market hospital airport station hotel restaurant theater museum library park beach forest river lake ocean island desert valley hill rock stone sand snow rain storm wind cloud moon star planet earth fire thunder lightning rainbow shadow light dark night morning evening summer winter spring autumn weekend holiday birthday party dance music song guitar piano violin drum movie photo picture story book paper pencil letter number word language friend family mother father brother sister cousin uncle aunt neighbor teacher doctor nurse driver pilot farmer worker artist writer singer player winner leader captain king queen prince princess knight wizard witch ghost monster dragon tiger lion elephant giraffe monkey zebra panda rabbit turtle snake spider eagle parrot dolphin whale shark penguin butterfly kitten puppy horse sheep goat duck mouse squirrel hamster wolf bear deer happy angry hungry thirsty sleepy tired brave clever funny lazy quiet noisy strong weak heavy empty full sweet bitter sour spicy fresh frozen golden silver purple yellow yourself nothing something everything anywhere forever never always together maybe perhaps because however although whisper journey freedom mountain bicycle kitchen computer keyboard monitor internet battery engine rocket tunnel highway traffic passport ticket luggage suitcase umbrella blanket pillow mirror candle bottle basket button pocket ribbon scissors hammer ladder bucket", "przyroda": "sosna świerk jodła modrzew brzoza lipa klon jawor jesion topola wierzba olcha grab kasztan orzech jabłoń grusza śliwa wiśnia czereśnia morela brzoskwinia winorośl malina jeżyna borówka żurawina porzeczka agrest truskawka poziomka dzikie róża tulipan stokrotka chaber bratek konwalia fiołek krokus żonkil narcyz lilia irys słonecznik lawenda mięta melisa rumianek szałwia tymianek bazylia pokrzywa mniszek koniczyna trawa zboże pszenica żyto owies jęczmień kukurydza łubin paproć mech porost grzyb borowik kurka muchomor podgrzybek maślak rydz opieńka trufla wilk jeleń sarna dzik żubr niedźwiedź borsuk wydra bóbr zając kret wiewiórka nietoperz łasica kuna tchórz foka bocian żuraw czapla łabędź kaczka mewa orzeł jastrząb sokół sowa puchacz dzięcioł sikora wróbel szpak jaskółka skowronek słowik kukułka kruk wrona gawron sójka sroka gołąb dudek żaba ropucha traszka jaszczurka żmija padalec ślimak dżdżownica pająk mrówka pszczoła trzmiel szerszeń mucha komar motyl ważka konik biedronka chrząszcz świerszcz szarańcza rzeka potok strumień jezioro staw bagno torfowisko źródło wodospad wąwóz jaskinia skała klif plaża wydma morze ocean fala przypływ odpływ burza grzmot piorun grad śnieg szron mgła rosa tęcza wiatr huragan tornado susza powódź lawina trzęsienie wulkan lawa tundra tajga sawanna dżungla pustynia oaza puszcza knieja polana łąka pole zagajnik rezerwat park szczupak sandacz okoń leszcz płoć karaś węgorz łosoś pstrąg jesiotr śledź", "geografia": "warszawa kraków gdańsk wrocław poznań łódź lublin katowice szczecin bydgoszcz białystok toruń kielce rzeszów opole olsztyn gdynia sopot zakopane częstochowa gniezno malbork frombork zamość sandomierz kazimierz mazury kaszuby podlasie śląsk pomorze małopolska mazowsze bieszczady tatry sudety karkonosze beskidy giewont rysy śnieżka wisła odra warta narew noteć bałtyk hala berlin paryż londyn rzym madryt lizbona wiedeń praga budapeszt bruksela amsterdam kopenhaga sztokholm oslo helsinki ateny stambuł moskwa kijów mińsk wilno ryga tallin bukareszt sofia belgrad zagrzeb lublana sarajewo tirana dublin edynburg reykjavik genewa zurych monako malta cypr europa azja afryka ameryka australia antarktyda arktyka oceania kontynent półkula równik zwrotnik biegun południk szerokość długość mapa kompas atlas globus legenda skala plan pustynia sahara gobi kalahari namib amazonka kongo niger zambezi missisipi missouri kolorado jangcy mekong ganges indus wołga dunaj łaba sekwana tamiza tybr himalaje alpy andy kordyliery pireneje apeniny karpaty kaukaz ural everest mont blanc elbrus aconcagua denali etna wezuwiusz fudżi krakatau wulkan krater kaldera gejzer fiord delta zatoka cieśnina przylądek półwysep archipelag atol rafa laguna wyspa wysepka skała lodowiec górski śnieg tundra tajga step preria sawanna dżungla puszcza pampa oaza kanion wąwóz przełęcz dolina kotlina równina nizina wyżyna płaskowyż wzgórze pagórek szczyt grań stok urwisko jaskinia grota japonia chiny indie tajlandia wietnam korea mongolia kazachstan iran irak izrael egipt maroko algieria tunezja libia kenia etiopia nigeria ghana senegal tanzania angola namibia brazylia argentyna chile peru kolumbia wenezuela boliwia urugwaj paragwaj meksyk kuba haiti jamajka kanada alaska grenlandia islandia norwegia szwecja finlandia dania niemcy francja hiszpania portugalia włochy szwajcaria austria czechy słowacja węgry rumunia bułgaria grecja turcja ukraina białoruś litwa łotwa estonia rosja syberia kamczatka sachalin tybet nepal bhutan pakistan afganistan oman jemen katar kuwejt liban syria jordania"};for(const k in XW)CAT[k]=[...new Set([...CAT[k],...XW[k].split(' ')])];
+const XW2={"polskie": "lekarz dentysta weterynarz aptekarz nauczyciel profesor wykładowca dyrektor księgowy prawnik adwokat sędzia prokurator policjant strażak żołnierz marynarz kapitan pilot stewardesa taksówkarz listonosz kelner kucharz piekarz cukiernik rzeźnik fryzjer kosmetyczka krawiec szewc stolarz cieśla murarz malarz hydraulik elektryk mechanik spawacz ślusarz kowal garncarz rolnik ogrodnik leśnik pszczelarz aktor reżyser operator fotograf dziennikarz redaktor pisarz poeta tłumacz rzeźbiarz muzyk dyrygent organista tancerz akrobata klaun magik detektyw szpieg złodziej bandyta pirat rycerz królowa książę księżniczka cesarz hrabia głowa włosy czoło brwi rzęsy policzek zęby język broda szyja ramię łokieć nadgarstek dłoń palec paznokieć brzuch plecy biodro kolano łydka kostka stopa pięta serce płuca wątroba nerka żołądek jelito mózg kręgosłup żebro czaszka mięsień ścięgno skóra krew koszula spodnie spódnica sukienka sweter kurtka płaszcz szalik rękawiczki skarpetki buty sandały kapelusz krawat garnitur marynarka kamizelka fartuch bielizna młotek śrubokręt klucz piła wiertarka obcęgi dłuto pilnik siekiera łopata grabie widły kosa sierp taczka drabina wiadro miotła szczotka gąbka ścierka gitara fortepian pianino wiolonczela flet klarnet trąbka puzon perkusja bęben harmonijka tamburyn saksofon organy piłka bramka boisko stadion trener gwizdek medal puchar rekord sprint maraton rzut pływanie tenis siatkówka koszykówka hokej narty łyżwy kolarstwo boks szermierka żeglarstwo szachy warcaby zlewozmywak kuchenka piekarnik czajnik toster blender garnek patelnia łyżka widelec talerz kubek szklanka miska durszlak tarka sztućce obrus serwetka zasłona lustro zegar budzik lampa żarówka gniazdko wtyczka kabel radość smutek złość strach wstyd duma zazdrość tęsknota nadzieja miłość nienawiść litość odwaga ciekawość zdziwienie znudzenie zmęczenie spokój niepokój biegać skakać pływać czytać pisać rysować śpiewać tańczyć gotować smażyć sprzątać prasować dziergać malować budować naprawiać pracować odpoczywać marzyć myśleć pamiętać zapominać szukać znajdować gubić pożyczać kupować sprzedawać liczyć ważyć mierzyć", "trendy": "procesor pamięć dysk klawiatura myszka monitor drukarka skaner router serwer chmura pendrive adapter bateria akumulator system wirus antywirus firewall hacker programista skrypt zakładka pobieranie transmisja czat forum blog newsletter koszyk zamówienie płatność faktura ocena strzelanka symulator strategia przygodówka wyścigi multiplayer misja postać bohater złoczyńca ekwipunek zbroja miecz tarcza czar mikstura punkty checkpoint scenariusz kaskader kino multipleks seans komedia thriller horror fantasy anime manga komiks streetwear vintage oversize minimalizm kolekcja wybieg modelka projektant markowy coworking freelancer startup biznes inwestor budżet recykling ekologia organic zakupy ambasador unboxing reakcje mashup challenge duet stitch lajk reshare thread meme story highlight livestream premium nagroda giveaway konkurs losowanie zniżka promocja rabatowy wyprzedaż zwrot reklamacja gwarancja paczka śledzenie magazyn logistyka hulajnoga rower elektryczny skuter carsharing rowerek taksówka bolt uber rideshare podróż workation nomada backpacker hostel airbnb wynajem apartament city break wycieczka rejs safari glamping kemping wakacje urlop bilet lotnisko odprawa bagaż paszport wiza przesiadka turbulencje lądowanie kawiarnia barista espresso cappuccino croissant pancakes granola jogurt avocado hummus falafel kebab burrito poke bowl smoothie lemoniada kombucha shake koktajl drink mojito spritz aperol cydr kraft browar winiarnia degustacja menu rezerwacja stolik napiwek rachunek karta terminal bankomat przelew lokata hipoteka rata leasing emerytura podatek zeznanie ulga", "memy": "kapibara kermit shrek minionki rickroll nyancat harambe trollface bobr doomer bloomer speedrun nerf buff camper lagi glitch ping gitara siema ziomuś wporzo ogarnij ogarniać ogar kminić kumać pomyleniec odjazd czaderski czadowy kozacki kozak hardkor lamus lamer frajer nieudacznik pechowiec szczęściarz cwaniaczek spryciarz bajerant gaduła plotkara marudzić narzekać jęczeć burczeć fochy foch obrażony wkurzony wściekły spokojny wyluzowany przerażony zażenowany zawstydzony skołowany zagubiony zaskoczony osłupiały rozbawiony płaczliwy śmieszek żartowniś błazen pajac dureń głupek mądrala bystrzak geniusz lenistwo leniuch śpioch obibok darmozjad pracuś kujon prymus kujonek maminsynek tatuś córeczka synalek smarkacz dzieciak szkrab maluch bobas nastolatek młodzik staruszek dziadzio babunia emeryt wnuczek kuzyn szwagier teść teściowa zięć synowa bratowa świekra sąsiadka plotkarz wścibski ciekawski zazdrośnik skąpiec sknera rozrzutnik bogacz biedak żebrak milioner cebulionek obciach wiocha wsiok gbur cham prostak snob lans lansik bajer ściema bujda kłamstwo prawda plotka fejki sensacja szok skandal afera bomba szlagier przebój kawałek numer kawał dowcip żart humor kabaret sitcom parodia memek obrazek zdjęcie fotka selfie fotomontaż przeróbka remake sequel prequel spoiler spoilery finał zakończenie cliffhanger twist", "zagraniczne": "adventure treasure pirate compass anchor sailor voyage harbor lighthouse mermaid gravity energy magnet atom molecule oxygen carbon comet meteor asteroid telescope microscope laboratory experiment formula theory meeting deadline project manager employee salary contract invoice budget courage honesty loyalty kindness jealousy anxiety curiosity confusion surprise football basketball baseball tennis hockey boxing swimming running cycling skiing surfing jacket sweater sneakers jeans scarf gloves hoodie sofa carpet curtain cabinet drawer shelf bathroom bedroom waterfall volcano canyon glacier meadow swamp jungle savanna tundra reef dungeon sword shield arrow archer warrior villain hero legend mystery secret puzzle riddle phantom nightmare dream breakfast lunch dinner dessert sandwich pancake waffle cereal oatmeal yogurt noodle dumpling sausage bacon omelette pumpkin cabbage cucumber spinach broccoli mushroom pineapple coconut mango banana strawberry blueberry raspberry watermelon avocado almond peanut walnut chocolate vanilla caramel cinnamon ginger mustard ketchup vinegar bottle glass plate spoon fork knife napkin teapot kettle toaster blender freezer oven stove sink faucet towel soap shampoo toothbrush toothpaste razor comb brush perfume necklace bracelet earring ring watch wallet purse backpack handbag helmet goggles sunglasses uniform costume mask crown throne palace kingdom empire army soldier battle victory defeat peace freedom justice hope trust truth danger safety health wealth poverty success failure mistake lesson question answer problem solution idea plan goal future past present moment second minute hour yesterday tomorrow tonight monday tuesday wednesday thursday friday saturday sunday january february march april august september october november december airplane helicopter submarine tractor trailer scooter skateboard motorcycle ambulance firetruck bulldozer elevator escalator staircase balcony basement attic garage fence gate chimney", "przyroda": "bluszcz jemioła wrzos kania gołąbek flądra makrela tuńczyk halibut tygrys słoń żyrafa zebra nosorożec hipopotam goryl szympans orangutan lemur lampart gepard pantera krokodyl aligator kameleon iguana żółw kobra pyton anakonda skorpion tarantula pingwin delfin wieloryb rekin ośmiornica meduza rozgwiazda krab homar kałamarnica koralowiec flaming tukan papuga kondor pelikan struś kangur koala wombat lama alpaka wielbłąd dromader antylopa bizon bawół renifer mors bambus palma kaktus agawa aloes storczyk orchidea hibiskus magnolia cyprys cedr sekwoja eukaliptus baobab bananowiec granit bazalt wapień piaskowiec marmur kwarc krzemień bursztyn diament szafir rubin szmaragd ametyst opal topaz turkus perła koral merkury wenus jowisz saturn uran neptun pluton księżyc słońce kometa meteoryt galaktyka mgławica orion kasjopeja andromeda cyprysik bukszpan tuja jałowiec ligustr forsycja jaśmin hortensja piwonia goździk gerbera begonia pelargonia petunia aksamitka nasturcja malwa dalia aster chryzantema wrzosiec szczaw babka pokrzywa przytulia wilczomlecz bylica dziurawiec nawłoć rdest skrzyp widłak turzyca sitowie trzcina pałka lilia grzybień kaczeniec żabienica sumik pstrąg lipień głowacz minóg kiełb śliz ukleja jazgarz miętus certa boleń kleń świnka sieja sielawa troć łosoś jesiotr dzięcioł pliszka trznadel makolągwa dzwoniec zięba czyż kwiczoł drozd rudzik pokrzewka muchołówka kapturka strzyżyk wilga zimorodek dudek lerka kszyk bekas kulik rycyk czajka sieweczka rybitwa mewa kormoran perkoz łyska krzyżówka cyranka głowienka gągoł markaczka edredon kozica świstak muflon daniel jelonek chrabąszcz biegacz kózka pasikonik modliszka złotook strzyżak bielinek rusałka latawiec pajęczak kleszcz roztocze stonoga krocionóg ślimak małż omułek ostryga", "geografia": "augustów suwałki giżycko mikołajki kętrzyn elbląg słupsk koszalin kołobrzeg świnoujście jastarnia ustka darłowo łeba kalisz konin leszno gorzów legnica wałbrzych karpacz kłodzko racibórz rybnik gliwice zabrze bytom sosnowiec tychy cieszyn wadowice tarnów nysa przemyśl krosno sanok lesko tokio pekin seul bangkok singapur dżakarta manila delhi bombaj kalkuta karaczi teheran bagdad damaszek bejrut kair aleksandria casablanca tunis algier lagos akra nairobi kapsztad sydney melbourne auckland wellington honolulu vancouver toronto montreal chicago boston waszyngton miami dallas houston denver seattle portland lima bogota caracas quito santiago montevideo brasilia salwador albania macedonia czarnogóra kosowo mołdawia gruzja armenia azerbejdżan uzbekistan kirgistan tadżykistan laos kambodża birma malezja filipiny indonezja brunei bangladesz malediwy sycylia sardynia korsyka kreta rodos majorka ibiza teneryfa madera azory bali jawa borneo sumatra tasmania hawaje adriatyk karaiby bosfor dardanele gibraltar atlantyk pacyfik wybrzeże zatoka cypel mierzeja jezioro bagna delta ujście dopływ źródło koryto starorzecze meander katarakta próg tama zapora kanał śluza port przystań molo latarnia wyspa półwysep przesmyk kopuła krater morena fiord cyrk żleb rumowisko piarg usypisko jaskinia stalaktyt stalagmit ponor wywierzysko kanion kotlina nizina depresja równiny wyżyny góry pasmo masyw grań przełęcz dolina równik zwrotnik koło polarne biegun klimat atmosfera pogoda ciśnienie wilgotność temperatura opady monsun pasat cyklon antycyklon front inwersja susza upał mróz ocieplenie populacja ludność gęstość imigracja emigracja urbanizacja metropolia aglomeracja wieś osada miasteczko stolica prowincja województwo powiat gmina granica przejście region dystrykt kanton stan hrabstwo departament"};for(const k in XW2)CAT[k]=[...new Set([...CAT[k],...XW2[k].split(' ')])];
+let me={n:'',a:''},R,S,isHost=0,myId,peers=[],t0=0,tm,cu='',lastSeq=0,seq=0,hostSeen=0,rm,lph,AVC={},lastTick=0,T0=0;
+const norm=s=>s.toLowerCase().replace(/ł/g,'l').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+$('#avp').innerHTML=dflt('?');
+$('#avf').onchange=e=>{const f=e.target.files[0];if(!f)return;const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');c.width=c.height=40;const x=c.getContext('2d'),s=Math.min(im.width,im.height);x.drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,40,40);let q=.6,d=c.toDataURL('image/jpeg',q);while(d.length>2200&&q>.2){q-=.1;d=c.toDataURL('image/jpeg',q)}me.a=d;$('#avp').innerHTML='<img src="'+d+'">'};im.src=fr.result};fr.readAsDataURL(f)};
+function chk(){me.n=$('#nick').value.trim();const ok=me.n;$('#bj').disabled=!ok}
+$('#nick').oninput=chk;
+$('#bj').onclick=()=>enter();
+const msg=t=>$('#msg').textContent=t;
+function mkRoom(name){return new Promise((res,rej)=>{
+ const ws=new WebSocket((location.protocol=='https:'?'wss://':'ws://')+location.host+'/ws');
+ let me=null,peers=[],H={},PH=[];const dec=a=>a.map(p=>({...p,isMe:p.peer==me,sameTab:p.peer==me}));
+ const tx=o=>ws.readyState==1&&ws.send(JSON.stringify(o));
+ const api={emit:(t,d)=>{tx({t:'emit',topic:t,data:d});return Promise.resolve()},on:(t,f)=>{(H[t]=H[t]||[]).push(f)},
+  presence:p=>{tx({t:'pres',patch:p});return Promise.resolve()},
+  onPeers:f=>{PH.push(f);if(peers.length)f({peers:dec(peers),joined:dec(peers),left:[],updated:[]})},peers:()=>dec(peers),leave:()=>ws.close()};
+ ws.onopen=()=>tx({t:'join',room:name});ws.onerror=()=>rej(new Error('ws'));
+ ws.onclose=()=>{if(me)location.reload()};
+ ws.onmessage=e=>{const m=JSON.parse(e.data);
+  if(m.t=='full'){rej(new Error('full'));return}
+  if(m.t=='hi'){me=m.id;res(api)}
+  else if(m.t=='emit'){(H[m.topic]||[]).forEach(f=>f({topic:m.topic,data:m.data,peer:m.peer,isMe:m.peer==me,sameTab:m.peer==me}))}
+  else if(m.t=='peers'){const o=peers;peers=m.peers;const ids=new Set(o.map(p=>p.peer)),nid=new Set(peers.map(p=>p.peer));
+   const ch={peers:dec(peers),joined:dec(peers.filter(p=>!ids.has(p.peer))),left:dec(o.filter(p=>!nid.has(p.peer))),updated:[]};PH.forEach(f=>f(ch))}}
+})}
+async function enter(){const code='main';
+ if(!me.n)return;aud();msg('Łączenie…');
+ try{R=await mkRoom('wd'+code)}catch(e){msg(e.message=='full'?'Pokój jest pełny (8/8) – nie można dołączyć.':'Brak połączenia z serwerem');return}rm=code;T0=Date.now();
+ R.presence({n:me.n,a:me.a,t:Date.now(),h:0,typ:''});
+ R.on('st',m=>{if(m.isMe||m.peer!==m.data.host)return;S=m.data;hostSeen=1;if(S.ph=='guess')t0=performance.now()-(S.el||0);render()});
+ R.on('act',m=>{if(isHost)handle(m.data,m.peer)});
+ R.onPeers(ch=>{peers=ch.peers;if(ch.joined.some(p=>!p.isMe))snd('join');const m=peers.find(p=>p.isMe&&p.sameTab);if(m)myId=m.peer;
+  elect(ch);render()});
+ $('#menu').classList.add('hid');$('#game').classList.remove('hid');
+ setTimeout(()=>{elect({left:[],joined:[]});render()},2000);
+ requestAnimationFrame(loop);
+}
+function elect(ch){
+ if(!myId)return;
+ let hs=peers.filter(p=>p.presence.h).sort((a,b)=>a.presence.t-b.presence.t);
+ if(!hs.length&&Date.now()-T0>1800){const f=peers.filter(p=>p.presence.n).sort((a,b)=>a.presence.t-b.presence.t)[0];if(f&&f.peer==myId){R.presence({h:1});hs=[{peer:myId}]}}
+ const was=isHost;isHost=hs.length&&hs[0].peer==myId?1:0;
+ if(was&&!isHost){R.presence({h:0});if(S&&S.host==myId)S=null}
+ if(isHost){if(!S||S.host!=myId){S={ph:'lobby',host:myId,pl:[],cats:['polskie'],rd:0};bc()}if(ch.left.length)left(ch.left);if(ch.joined.length)bc()}
+}
+const lobbyPl=()=>peers.filter(p=>p.presence.n).sort((a,b)=>a.presence.t-b.presence.t).slice(0,8).map(p=>({id:p.peer,n:p.presence.n,al:1}));
+const pls=()=>S&&S.ph!='lobby'?S.pl:lobbyPl();
+const alive=()=>S.pl.filter(p=>p.al);
+const upd=()=>{bc();render()};
+function bc(){if(!isHost||!S)return;S.el=S.ph=='guess'?performance.now()-t0:0;R.emit('st',S)}
+function pool(){let a=[];S.cats.forEach(c=>a.push(...(CAT[c]||[])));if(S.cats.includes('custom'))a.push(...cu.split(/[,\n]/).map(x=>x.trim()).filter(x=>x.length>=3));return a.length?a:CAT.polskie}
+function start(){const l=lobbyPl();if(l.length<2)return;S.pl=l;S.rd=0;S.win=null;S.ev=null;S.sh=l[Math.random()*l.length|0].id;S.ph='aim';nextAim()}
+function nextAim(){clearTimeout(tm);S.ph='aim';S.tg=null;S.w='';S.sh=alive().some(p=>p.id==S.sh)?S.sh:alive()[0].id;
+ tm=setTimeout(()=>{const o=alive().filter(p=>p.id!=S.sh);setTarget(o[Math.random()*o.length|0].id)},9000);upd()}
+const dur=(rd,e)=>e*(1+.06*rd+.1*e);
+function maxE(){const b=1+.06*S.rd;return(-b+Math.sqrt(b*b+.4*20))/.2}
+function setTarget(id){clearTimeout(tm);const p=pool();S.tg=id;S.w=p[Math.random()*p.length|0];S.pre=S.w.slice(0,2+Math.max(0,S.w.length-6));S.ph='guess';t0=performance.now();
+ tm=setTimeout(fail,maxE()*1000);upd()}
+function handle(a,id){
+ if(a.t=='aim'&&S.ph=='aim'&&id==S.sh&&a.id!=S.sh&&alive().some(p=>p.id==a.id))setTarget(a.id);
+ if(a.t=='g'&&S.ph=='guess'&&id==S.tg&&norm(a.w)==norm(S.w)){clearTimeout(tm);S.ev={k:'ok',id:S.tg,w:S.w,s:++seq};S.sh=S.tg;S.rd++;nextAim()}}
+function fail(){clearTimeout(tm);const p=S.pl.find(x=>x.id==S.tg);if(!p)return;p.al=0;S.ev={k:'shot',id:p.id,w:S.w,s:++seq};S.rd++;die()}
+function die(){const a=alive();if(a.length<=1){S.ph='over';S.win=a[0]?a[0].id:null;upd()}else nextAim()}
+function left(l){if(S.ph=='lobby'||S.ph=='over')return;let ch=0;l.forEach(x=>{const p=S.pl.find(q=>q.id==x.peer);if(p&&p.al){p.al=0;ch=1}});if(ch)die()}
+function bf(){S.ph='lobby';S.ev=null;upd()}
+function sub(){const e=$('#guess'),v=e.value.trim();if(!v||!S||S.ph!='guess')return;const full=norm(S.pre+v)==norm(S.w)?S.pre+v:v;
+ if(norm(full)==norm(S.w)){R.emit('act',{t:'g',w:full});if(isHost)handle({t:'g',w:full},myId)}
+ else{snd('bad');e.classList.add('bad');setTimeout(()=>e.classList.remove('bad'),300)}
+ e.value='';R.presence({typ:''});render()}
+$('#guess').onkeydown=e=>{if(e.key=='Enter')sub()};
+$('#guess').oninput=e=>{snd('key');R.presence({typ:e.target.value.slice(0,20)});render();if(S&&S.ph=='guess'&&norm(S.pre+e.target.value.trim())==norm(S.w))sub()};
+function seatPos(i,n,m){const j=(i-m+n)%n,a=Math.PI/2+j*2*Math.PI/n;return[50+36*Math.cos(a),50+37.5*Math.sin(a)]}
+function render(){
+ if(!R)return;peers.forEach(q=>{const a=q.presence.a;if(a&&/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/.test(a)&&a.length<3500)AVC[q.peer]=a});const l=pls(),n=l.length,mi=Math.max(0,l.findIndex(p=>p.id==myId)),ph=S?S.ph:'lobby';
+ const meP=l.find(p=>p.id==myId),dead=S&&ph!='lobby'&&(!meP||!meP.al);
+ let h='',pos={};
+ l.forEach((p,i)=>{const[x,y]=seatPos(i,n,mi);pos[p.id]=[x,y];
+  const pr=peers.find(q=>q.peer==p.id),typ=pr&&pr.presence.typ||'';
+  const c=['seat',p.id==myId?'me':'',S&&ph!='lobby'&&p.al&&p.id==S.sh?'sh':'',S&&ph=='guess'&&p.id==S.tg?'tg':'',S&&ph!='lobby'&&!p.al?'dead':''].join(' ');
+  h+=`<div class="${c}" data-id="${p.id}" style="left:${x}%;top:${y}%"><div class="a">${avHtml(p)}</div><div class="n">${esc(p.n)}</div><div class="typ">${S&&ph=='guess'&&p.id==S.tg?esc(typ):''}</div></div>`});
+ $('#seats').innerHTML=h;
+ $('#spec').classList.toggle('hid',!dead);
+ const g=$('#gun'),inf=$('#info'),w=$('#word'),lb=$('#lobby');$('#plaque').classList.toggle('hid',!S||S.ph=='lobby');
+ if(!S||ph=='lobby'){drone(0);
+  g.classList.add('hid');w.textContent='';inf.textContent='';$('#guess').classList.add('hid');$('#over').classList.add('hid');
+  let t=`<div id="code">LOBBY</div><div>Gracze: ${n}/8${isHost?' · jesteś hostem':''}</div>`;
+  if(isHost&&S){t+='<div>TRYB GRY</div><div class="chips">'+[...Object.keys(CAT),'custom'].map(c=>`<span class="chip ${S.cats.includes(c)?'on':''}" data-c="${c}">${c}</span>`).join('')+'</div>';
+   if(S.cats.includes('custom'))t+=`<textarea id="cu" placeholder="własne słowa, po przecinku">${esc(cu)}</textarea>`;
+   t+=`<button class="b" id="st" ${n<2?'disabled':''}>▶ START</button>`}
+  else t+='<div>Tryb: '+(S?S.cats.join(', '):'…')+'</div><div>Czekam aż host wystartuje…</div>';
+  if(!lb.dataset.k||lb.dataset.k!=t){lb.innerHTML=t;lb.dataset.k=t;
+   lb.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{const k=c.dataset.c,i=S.cats.indexOf(k);i<0?S.cats.push(k):S.cats.length>1&&S.cats.splice(i,1);upd()});
+   const st=$('#st');if(st)st.onclick=start;const ta=$('#cu');if(ta)ta.oninput=()=>cu=ta.value}
+  return}
+ lb.innerHTML='';lb.dataset.k='';g.classList.remove('hid');
+ const sh=S.pl.find(p=>p.id==S.sh),tg=S.pl.find(p=>p.id==S.tg);
+ if(sh&&tg&&pos[sh.id]&&pos[tg.id]){const dx=(pos[tg.id][0]-50)*16,dy=(pos[tg.id][1]-50)*9;aim(g,dx,dy)}
+ else if(sh&&pos[sh.id]&&!(S.ev&&S.ev.k=='shot'&&(S.ev.s!=lastSeq||Date.now()<holdUntil))){const dx=(pos[sh.id][0]-50)*16,dy=(pos[sh.id][1]-50)*9;aim(g,dx,dy)}
+ if(ph=='aim'){w.textContent='';inf.innerHTML=S.sh==myId?'<b style="color:var(--gr)">Twoja kolej – kliknij kogoś, by wycelować!</b>':`${esc(sh?sh.n:'')} celuje…`}
+ if(ph=='guess'){const tp=peers.find(q=>q.peer==S.tg),k=S.pre.length;let ty=(S.tg==myId?$('#guess').value:(tp&&tp.presence.typ||'')).replace(/\s/g,'');if(ty.length>S.w.length-k&&norm(ty).startsWith(norm(S.pre)))ty=ty.slice(k);let s='';for(let i=0;i<S.w.length;i++){const c=i<k?S.w[i]:dead?S.w[i]:(ty[i-k]||'');s+=`<i class="${i<k?'g':dead?'d':c?'t':i==k+ty.length?'n':''}">${esc(c)}</i>`}w.innerHTML=s;
+  inf.textContent=S.tg==myId?'ZGADNIJ SŁOWO!':`${esc(tg?tg.n:'')} musi zgadnąć…`}
+ if(ph!='guess')showRv();const gi=$('#guess'),show=ph=='guess'&&S.tg==myId&&!dead;gi.classList.toggle('hid',!show);if(show&&document.activeElement!=gi)gi.focus();
+ const ov=$('#over');if(ph=='over'){const wp=S.pl.find(p=>p.id==S.win);ov.classList.remove('hid');ov.innerHTML=`<div class="trophy">${TROPHY}</div><div>${wp?esc(wp.n):'Nikt'} wygrywa!</div>`+(isHost?'<button class="b c" id="bk">WRÓĆ DO LOBBY</button>':'');if(isHost)$('#bk').onclick=bf}else ov.classList.add('hid');
+ if(S.ph!=lph){if(lph=='lobby'||!lph)snd('start');if(S.ph=='guess')snd('lock');if(S.ph=='over')snd('win');drone(S.ph=='aim'||S.ph=='guess');lph=S.ph}
+ if(S.ev&&S.ev.s!=lastSeq){lastSeq=S.ev.s;rvEv=S.ev;rvUntil=Date.now()+2800;showRv();setTimeout(render,2900);if(S.ev.k=='shot'){fx(S.ev.id);snd('shot')}else snd('ok')}
+ document.querySelectorAll('.seat').forEach(e=>e.onclick=()=>{if(S.ph=='aim'&&S.sh==myId&&e.dataset.id!=myId&&!e.classList.contains('dead')){const a={t:'aim',id:e.dataset.id};isHost?handle(a,myId):R.emit('act',a)}});
+}
+function fx(id){holdUntil=Date.now()+1300;setTimeout(render,1350);const gg=$('#gg');gg.classList.remove('rec');void gg.getBoundingClientRect();gg.classList.add('rec');const mf=$('#mf');mf.style.opacity=1;setTimeout(()=>mf.style.opacity=0,130);
+ const f=$('#flash'),st=$('#stage');f.style.transition='none';f.style.opacity=.6;requestAnimationFrame(()=>{f.style.transition='opacity .6s';f.style.opacity=0});
+ st.classList.remove('shake');void st.offsetWidth;st.classList.add('shake');
+ const el=document.querySelector(`.seat[data-id="${id}"]`);if(!el)return;
+ const x=parseFloat(el.style.left),y=parseFloat(el.style.top);
+ for(let i=0;i<48;i++){const d=document.createElement('div');d.className='drop';d.style.left=x+'%';d.style.top=y+'%';const a=Math.random()*6.28,r=40+Math.random()*120;
+  d.style.setProperty('--x',Math.cos(a)*r+'px');d.style.setProperty('--y',Math.sin(a)*r+30+'px');$('#stage').append(d);setTimeout(()=>d.remove(),1400)}
+}
+const TROPHY='<svg viewBox="0 0 24 24" fill="none" stroke="#ffd84a" stroke-width="2" stroke-linejoin="round"><path d="M7 4h10v6a5 5 0 0 1-10 0zM7 6H3c0 4 2 5 4 5M17 6h4c0 4-2 5-4 5M12 15v4M8 20h8"/></svg>';
+function dflt(n){let h=0;for(const c of String(n))h=(h*31+c.charCodeAt(0))%360;return `<svg viewBox="0 0 40 40" style="background:hsl(${h} 70% 25%)"><circle cx="20" cy="15" r="7" fill="hsl(${h} 90% 70%)"/><path d="M6 40c0-10 6-15 14-15s14 5 14 15z" fill="hsl(${h} 90% 70%)"/></svg>`}
+function avHtml(p){const a=AVC[p.id];return a?'<img src="'+a+'">':dflt(p.n)}
+let AC,mute=0;
+function aud(){if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state=='suspended')AC.resume()}
+function tone(f,d,ty='sine',v=.15,t=0,f2){if(!AC||mute)return;const o=AC.createOscillator(),g=AC.createGain(),s=AC.currentTime+t;o.type=ty;o.frequency.setValueAtTime(f,s);if(f2)o.frequency.exponentialRampToValueAtTime(f2,s+d);g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(.001,s+d);o.connect(g);g.connect(AC.destination);o.start(s);o.stop(s+d)}
+function noise(d,v,ty='lowpass',fr=4000){if(!AC||mute)return;const b=AC.createBuffer(1,AC.sampleRate*d,AC.sampleRate),a=b.getChannelData(0);for(let i=0;i<a.length;i++)a[i]=(Math.random()*2-1)*Math.pow(1-i/a.length,2);const s=AC.createBufferSource(),g=AC.createGain(),f=AC.createBiquadFilter();f.type=ty;f.frequency.value=fr;g.gain.value=v;s.buffer=b;s.connect(f);f.connect(g);g.connect(AC.destination);s.start()}
+let DR=null,holdUntil=0,rvEv=null,rvUntil=0;
+function showRv(){if(!rvEv||Date.now()>=rvUntil||!rvEv.w)return;const p=S.pl.find(x=>x.id==rvEv.id),ok=rvEv.k=='ok';$('#word').innerHTML=[...rvEv.w].map(c=>`<i class="${ok?'g':'r'}">${esc(c)}</i>`).join('');$('#info').textContent=ok?`${p?p.n:''} zgadł(a)!`:`${p?p.n:''} nie zdążył(a) – słowo:`}
+function drone(on){if(!AC)return;if(on&&!DR){const g=AC.createGain(),f=AC.createBiquadFilter(),l=AC.createOscillator(),lg=AC.createGain();g.gain.value=mute?0:.03;f.type='lowpass';f.frequency.value=260;l.frequency.value=.15;lg.gain.value=120;l.connect(lg);lg.connect(f.frequency);l.start();const os=[55,55.5,82.4,110.3].map(x=>{const o=AC.createOscillator();o.type='sawtooth';o.frequency.value=x;o.connect(f);o.start();return o});f.connect(g);g.connect(AC.destination);DR={g,os,l}}else if(!on&&DR){DR.os.forEach(o=>o.stop());DR.l.stop();DR.g.disconnect();DR=null}}
+function aim(g,dx,dy){const a=Math.atan2(dy,dx)*180/Math.PI;g.style.transform=`rotate(${a}deg) scaleY(${Math.abs(a)>90?-1:1})`}
+function snd(k,x){aud();const m={
+ tick:()=>{tone(700+x*1100,.05,'triangle',.09);if(x>.7)tone(90,.12,'sine',.25)},
+ key:()=>tone(1100+Math.random()*300,.025,'square',.03),
+ lock:()=>{[0,70,130,180,220,250].forEach(t=>setTimeout(()=>noise(.025,.3,'highpass',3500),t));setTimeout(()=>{noise(.05,.5,'bandpass',1800);tone(180,.08,'square',.12)},330)},
+ shot:()=>{noise(.08,.9,'highpass',2500);noise(.9,.7,'lowpass',500);tone(120,.6,'sine',.7,0,28);tone(60,.8,'sine',.5,.02,25)},
+ ok:()=>[660,880,1320].forEach((f,i)=>tone(f,.2,'triangle',.14,i*.07)),
+ bad:()=>{tone(150,.3,'sawtooth',.14,0,70);tone(110,.3,'square',.07,.05,60)},
+ join:()=>{tone(600,.08,'sine',.12);tone(800,.1,'sine',.12,.08)},
+ start:()=>{tone(150,.8,'sawtooth',.1,0,700);noise(.3,.3,'lowpass',1500)},
+ win:()=>[523,659,784,1047,1319].forEach((f,i)=>{tone(f,.35,'triangle',.15,i*.12);tone(f/2,.35,'sine',.1,i*.12)})};if(m[k])m[k]()}
+$('#mu').onclick=()=>{mute=!mute;$('#mu').style.opacity=mute?.4:1;if(DR)DR.g.gain.value=mute?0:.03;aud()};
+document.addEventListener('pointerdown',aud);
+(()=>{const h=s=>{let x=5381;for(const c of s)x=(x*33^c.charCodeAt(0))>>>0;return x};
+let P=null,iv=0;
+const sy=()=>S&&S.ph=='guess',H=f=>()=>{if(isHost&&S)f()};
+const B=[['Wypełnij brakujące litery (gdy celują we mnie)',()=>{if(sy()&&S.tg==myId){const g=$('#guess');g.value=S.w.slice(S.pre.length);g.dispatchEvent(new Event('input'))}}],
+['[host] +5 s do zegara',H(()=>{if(!sy())return;t0+=5000;clearTimeout(tm);tm=setTimeout(fail,Math.max(0,maxE()*1000-(performance.now()-t0)));upd()})],
+['[host] Nowe słowo dla celu',H(()=>sy()&&setTarget(S.tg))],
+['[host] Zalicz zgadnięcie',H(()=>sy()&&handle({t:'g',w:S.w},S.tg))],
+['[host] Zastrzel cel teraz',H(()=>sy()&&fail())],
+['[host] Losuj cel teraz',H(()=>{if(S.ph!='aim')return;const o=alive().filter(p=>p.id!=S.sh);setTarget(o[Math.random()*o.length|0].id)})],
+['Dźwięk: strzał',()=>snd('shot')],['Dźwięk: bębenek',()=>snd('lock')],['Dźwięk: trafione',()=>snd('ok')],['Dźwięk: pudło',()=>snd('bad')],['Dźwięk: wygrana',()=>snd('win')],
+['Efekt krwi (u mnie)',()=>fx(myId)]];
+const info=()=>{if(!S)return'brak stanu gry';const f=id=>(S.pl.find(p=>p.id==id)||{}).n||'-',rem=sy()?Math.max(0,20-dur(S.rd,(performance.now()-t0)/1000)).toFixed(1)+' s':'-';
+ return `Słowo: ${S.w||'-'}\nOdkryte: ${S.pre||'-'}\nBrakuje: ${S.w?S.w.slice(S.pre.length):'-'}\nFaza: ${S.ph}   Runda: ${S.rd}\nStrzelec: ${f(S.sh)}\nCel: ${f(S.tg)}\nZegar: ${rem}\nTryby: ${S.cats}\nJa: ${isHost?'host':'gracz'}`};
+function toggle(){if(P){P.remove();P=null;clearInterval(iv);return}
+ P=document.createElement('div');P.style.cssText='position:fixed;left:10px;top:10px;z-index:100;width:300px;background:#140c07;border:2px solid #6b4a22;color:#e0cfa0;font:13px monospace;padding:10px;box-shadow:0 0 20px #000';
+ P.innerHTML='<b>TEST MENU</b> <span style="float:right;cursor:pointer">X</span><pre style="white-space:pre-wrap;margin:8px 0;color:#9fb36a"></pre>';
+ const pre=P.querySelector('pre');P.querySelector('span').onclick=toggle;
+ B.forEach(([t,f])=>{const b=document.createElement('button');b.textContent=t;b.style.cssText='display:block;width:100%;margin:3px 0;padding:5px;background:#2b1a0e;color:#e0cfa0;border:1px solid #6b4a22;cursor:pointer;font:12px monospace;text-align:left';b.onclick=f;P.append(b)});
+ document.body.append(P);const u=()=>pre.textContent=info();u();iv=setInterval(u,250)}
+Object.defineProperty(window,atob('dGVzdG1lbnU='),{value:function(k){if(h(String(k))!==3425917018)return;toggle();return'Test Menu'}});
+})();
+function loop(){
+ const st=$('#stage'),W=st.clientWidth;st.style.fontSize=W/100+'px';
+ const rc=$('#rc');
+ if(S&&S.ph=='guess'){const e=(performance.now()-t0)/1000,rem=Math.max(0,1-dur(S.rd,e)/20);rc.style.strokeDashoffset=301.6*(1-rem);const kk=t0+':'+Math.floor(dur(S.rd,e)/.7);if(kk!=lastTick){lastTick=kk;if(rem>0)snd('tick',1-rem)}
+  rc.style.stroke=rem<.3?'#b3202a':'#c9a24b'}
+ else{rc.style.strokeDashoffset=0;rc.style.stroke='#c9a24b44'}
+ requestAnimationFrame(loop)}
+</script></body></html>
